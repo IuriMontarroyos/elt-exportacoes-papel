@@ -1,0 +1,33 @@
+import pandas as pd
+
+#dataset exemplo
+data = {
+    "país": ["Argentina", "Chile", "Argentina", "Brasil", "Chile"],
+    "embalagem": ["saco", "papel kraft", "saco", "papel ondulado", "saco",],
+    "toneladas": [10, 8, 5, 12, 7]
+}
+
+df = pd.DataFrame(data)
+
+#salvar CSV
+df.to_csv("esportacoes.csv", index=False)
+
+df
+
+# Extract
+df = pd.read_csv("esportacoes.csv")
+
+#Transform
+df["embalagem"] = df["embalagem"].str.lower()
+
+relatorio = (
+    df.groupby(["país", "embalagem"]) ["toneladas"]
+    .sum()
+    .reset_index()
+
+)
+
+#Load
+relatorio.to_csv("relatorio_exportacoes.csv", index=False)
+
+relatorio
